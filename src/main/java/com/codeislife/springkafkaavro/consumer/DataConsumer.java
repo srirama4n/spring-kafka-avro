@@ -23,11 +23,9 @@ public class DataConsumer {
     }
 
     @KafkaListener(topics = {"${com.codeislife.springkafkaavro.topic}"})
-    public void receive(ConsumerRecord<Person, Address> consumerRecord) {
-        Person person = consumerRecord.key();
-        Address address = consumerRecord.value();
+    public void receive(ConsumerRecord consumerRecord) {
         numRecords--;
-        LOGGER.debug("consuming {}, {}, remaining {}", person, address, numRecords);
+        System.out.println("consuming key: "+ consumerRecord.key()+" , value: "+consumerRecord.value()+", remaining: "+numRecords);
         if (numRecords <= 0) {
             registry.stop();
         }
